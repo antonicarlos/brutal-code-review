@@ -4,7 +4,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/Licen%C3%A7a-MIT-blue.svg?style=flat-square" alt="Licença MIT"></a>
   <img src="https://img.shields.io/badge/PRs-Bem--vindas-brightgreen.svg?style=flat-square" alt="Pull Requests Bem-vindas">
   <img src="https://img.shields.io/badge/Over--Engineering-Zero%20Toler%C3%A2ncia-red.svg?style=flat-square" alt="Zero Tolerância a Over-Engineering">
-  <img src="https://img.shields.io/badge/Multi--Agente-Cursor%20%7C%20Antigravity%20%7C%20Gemini%20%7C%20Claude%20%7C%20Copilot-purple.svg?style=flat-square" alt="Compatível com Cursor, Antigravity, Gemini, Claude e Copilot">
+  <img src="https://img.shields.io/badge/Multi--Agente-Cursor%20%7C%20Antigravity%20%7C%20Gemini%20%7C%20Claude%20%7C%20Copilot%20%7C%20OpenCode-purple.svg?style=flat-square" alt="Compatível com Cursor, Antigravity, Gemini, Claude, Copilot e OpenCode">
 </p>
 
 <p align="center">
@@ -24,6 +24,7 @@
   - [🟢 Cursor AI / Windsurf](#cursor)
   - [🟠 Claude Code](#claude)
   - [🔵 GitHub Copilot](#copilot)
+  - [⚡ OpenCode](#opencode)
 - [Base Teórica Fundamentada (`agent-rules-books`)](#base-teorica)
 - [Diretrizes Especializadas por Stack Técnica](#diretrizes-por-stack)
 - [Arquitetura de Memória em 3 Níveis](#memoria)
@@ -35,7 +36,7 @@
 <a id="visao-geral"></a>
 ## 📌 Visão Geral
 
-O **`brutal-code-review`** é uma Skill universal e agnóstica para assistentes e CLIs de IA (**Cursor**, **Antigravity**, **Gemini CLI**, **Claude Code**, **GitHub Copilot**, **Windsurf**).
+O **`brutal-code-review`** é uma Skill universal e agnóstica para assistentes e CLIs de IA (**Cursor**, **Antigravity**, **Gemini CLI**, **Claude Code**, **GitHub Copilot**, **Windsurf**, **OpenCode**).
 
 A maioria dos assistentes de IA sofre de dois extremos: ou gera elogios genéricos e vazios (*passa pano pra bug*), ou inventa dezenas de camadas desnecessárias de abstração (*over-engineering*). 
 
@@ -288,6 +289,87 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
 - **🔗 Via Symlink (Opcional):**
   - **Linux / macOS:** `mkdir -p .github && ln -s /caminho/para/brutal-code-review/SKILL.md .github/copilot-instructions.md && ln -s /caminho/para/brutal-code-review/agent-rules-books agent-rules-books`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path ".github"; New-Item -ItemType SymbolicLink -Path ".github\copilot-instructions.md" -Target "C:\caminho\para\brutal-code-review\SKILL.md"; New-Item -ItemType SymbolicLink -Path "agent-rules-books" -Target "C:\caminho\para\brutal-code-review\agent-rules-books"`
+
+---
+
+<a id="opencode"></a>
+### ⚡ OpenCode
+
+O **OpenCode** suporta Skills nativamente através do diretório `.opencode/skills/` (no projeto ativo) ou `~/.config/opencode/skills/` (global para todos os projetos do usuário).
+
+#### No Projeto Ativo (Recomendado)
+*Execute na raiz do projeto onde deseja habilitar o review:*
+
+- **⚡ Instalação em 1-Comando (Sem clonar manualmente):**
+  - **Linux / macOS / WSL:**
+    ```bash
+    git clone https://github.com/antonicarlos/brutal-code-review.git /tmp/bcr_temp && \
+    mkdir -p .opencode/skills/brutal-code-review && \
+    cp /tmp/bcr_temp/SKILL.md .opencode/skills/brutal-code-review/ && \
+    cp -r /tmp/bcr_temp/agent-rules-books .opencode/skills/brutal-code-review/ && \
+    rm -rf /tmp/bcr_temp
+    ```
+  - **Windows (PowerShell):**
+    ```powershell
+    git clone https://github.com/antonicarlos/brutal-code-review.git $env:TEMP\bcr_temp; `
+    New-Item -ItemType Directory -Force -Path ".opencode\skills\brutal-code-review"; `
+    Copy-Item "$env:TEMP\bcr_temp\SKILL.md" -Destination ".opencode\skills\brutal-code-review\"; `
+    Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\agent-rules-books" -Destination ".opencode\skills\brutal-code-review\"; `
+    Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
+    ```
+- **📁 Se você já clonou este repositório localmente:**
+  - **Linux / macOS:**
+    ```bash
+    mkdir -p /caminho/do/seu/projeto/.opencode/skills/brutal-code-review && \
+    cp SKILL.md /caminho/do/seu/projeto/.opencode/skills/brutal-code-review/ && \
+    cp -r agent-rules-books /caminho/do/seu/projeto/.opencode/skills/brutal-code-review/
+    ```
+  - **Windows (PowerShell):**
+    ```powershell
+    New-Item -ItemType Directory -Force -Path "C:\caminho\do\projeto\.opencode\skills\brutal-code-review"
+    Copy-Item "SKILL.md" -Destination "C:\caminho\do\projeto\.opencode\skills\brutal-code-review\"
+    Copy-Item -Recurse -Force "agent-rules-books" -Destination "C:\caminho\do\projeto\agent-rules-books"
+    ```
+- **🔗 Via Symlink (Opcional):**
+  - **Linux / macOS:** `mkdir -p .opencode/skills && ln -sfn /caminho/para/brutal-code-review .opencode/skills/brutal-code-review`
+  - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path ".opencode\skills"; New-Item -ItemType SymbolicLink -Path ".opencode\skills\brutal-code-review" -Target "C:\caminho\para\brutal-code-review"`
+
+#### Global (Disponível em qualquer projeto no OpenCode)
+Instala na pasta de configuração do OpenCode do seu usuário:
+
+- **⚡ Instalação em 1-Comando (Sem clonar manualmente):**
+  - **Linux / macOS / WSL:**
+    ```bash
+    git clone https://github.com/antonicarlos/brutal-code-review.git /tmp/bcr_temp && \
+    mkdir -p ~/.config/opencode/skills/brutal-code-review && \
+    cp /tmp/bcr_temp/SKILL.md ~/.config/opencode/skills/brutal-code-review/ && \
+    cp -r /tmp/bcr_temp/agent-rules-books ~/.config/opencode/skills/brutal-code-review/ && \
+    rm -rf /tmp/bcr_temp
+    ```
+  - **Windows (PowerShell):**
+    ```powershell
+    git clone https://github.com/antonicarlos/brutal-code-review.git $env:TEMP\bcr_temp; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review"; `
+    Copy-Item "$env:TEMP\bcr_temp\SKILL.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"; `
+    Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\agent-rules-books" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"; `
+    Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
+    ```
+- **📁 Se você já clonou este repositório localmente:**
+  - **Linux / macOS:**
+    ```bash
+    mkdir -p ~/.config/opencode/skills/brutal-code-review && \
+    cp SKILL.md ~/.config/opencode/skills/brutal-code-review/ && \
+    cp -r agent-rules-books ~/.config/opencode/skills/brutal-code-review/
+    ```
+  - **Windows (PowerShell):**
+    ```powershell
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review"
+    Copy-Item "SKILL.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"
+    Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"
+    ```
+- **🔗 Via Symlink (Execute dentro da pasta clonada):**
+  - **Linux / macOS:** `mkdir -p ~/.config/opencode/skills && ln -sfn "$(pwd)" ~/.config/opencode/skills/brutal-code-review`
+  - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review" -Target (Get-Location)`
 
 ---
 
