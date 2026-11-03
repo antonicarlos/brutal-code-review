@@ -144,12 +144,16 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
 - **🔗 Via Symlink (Execute dentro da pasta clonada):**
   - **Linux / macOS:** `mkdir -p ~/.antigravity/skills && ln -sfn "$(pwd)" ~/.antigravity/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.antigravity\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review" -Target (Get-Location)`
-- **🔄 Atualização Rápida (Preserva KNOWLEDGE.md):**
+- **🔄 Atualização Rápida (Atualiza Regras e Preserva Memória dos Projetos):**
   - **Linux / macOS / WSL:**
     ```bash
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git /tmp/bcr_temp && \
     cp /tmp/bcr_temp/SKILL.md ~/.antigravity/skills/brutal-code-review/ && \
     cp -r /tmp/bcr_temp/agent-rules-books ~/.antigravity/skills/brutal-code-review/ && \
+    cp /tmp/bcr_temp/KNOWLEDGE.md ~/.antigravity/skills/brutal-code-review/ && \
+    mkdir -p ~/.antigravity/skills/brutal-code-review/knowledge/global ~/.antigravity/skills/brutal-code-review/knowledge/projects && \
+    cp -r /tmp/bcr_temp/knowledge/global/* ~/.antigravity/skills/brutal-code-review/knowledge/global/ && \
+    cp -n /tmp/bcr_temp/knowledge/projects/TEMPLATE.md ~/.antigravity/skills/brutal-code-review/knowledge/projects/ 2>/dev/null || true && \
     rm -rf /tmp/bcr_temp
     ```
   - **Windows (PowerShell):**
@@ -157,6 +161,11 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git $env:TEMP\bcr_temp; `
     Copy-Item "$env:TEMP\bcr_temp\SKILL.md" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\" -Force; `
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\agent-rules-books" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\"; `
+    Copy-Item "$env:TEMP\bcr_temp\KNOWLEDGE.md" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\" -Force; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review\knowledge\global"; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review\knowledge\projects"; `
+    Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge\global\*" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\knowledge\global\"; `
+    if (-not (Test-Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review\knowledge\projects\TEMPLATE.md")) { Copy-Item "$env:TEMP\bcr_temp\knowledge\projects\TEMPLATE.md" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\knowledge\projects\" }; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
 
@@ -202,12 +211,16 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
 - **🔗 Via Symlink (Execute dentro da pasta clonada):**
   - **Linux / macOS:** `mkdir -p ~/.gemini/skills && ln -sfn "$(pwd)" ~/.gemini/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review" -Target (Get-Location)`
-- **🔄 Atualização Rápida (Preserva KNOWLEDGE.md):**
+- **🔄 Atualização Rápida (Atualiza Regras e Preserva Memória dos Projetos):**
   - **Linux / macOS / WSL:**
     ```bash
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git /tmp/bcr_temp && \
     cp /tmp/bcr_temp/SKILL.md ~/.gemini/skills/brutal-code-review/ && \
     cp -r /tmp/bcr_temp/agent-rules-books ~/.gemini/skills/brutal-code-review/ && \
+    cp /tmp/bcr_temp/KNOWLEDGE.md ~/.gemini/skills/brutal-code-review/ && \
+    mkdir -p ~/.gemini/skills/brutal-code-review/knowledge/global ~/.gemini/skills/brutal-code-review/knowledge/projects && \
+    cp -r /tmp/bcr_temp/knowledge/global/* ~/.gemini/skills/brutal-code-review/knowledge/global/ && \
+    cp -n /tmp/bcr_temp/knowledge/projects/TEMPLATE.md ~/.gemini/skills/brutal-code-review/knowledge/projects/ 2>/dev/null || true && \
     rm -rf /tmp/bcr_temp
     ```
   - **Windows (PowerShell):**
@@ -215,6 +228,11 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git $env:TEMP\bcr_temp; `
     Copy-Item "$env:TEMP\bcr_temp\SKILL.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\" -Force; `
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\agent-rules-books" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"; `
+    Copy-Item "$env:TEMP\bcr_temp\KNOWLEDGE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\" -Force; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global"; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects"; `
+    Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge\global\*" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global\"; `
+    if (-not (Test-Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\TEMPLATE.md")) { Copy-Item "$env:TEMP\bcr_temp\knowledge\projects\TEMPLATE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\" }; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
 
@@ -492,12 +510,16 @@ Instala na pasta de configuração do OpenCode do seu usuário:
 - **🔗 Via Symlink (Execute dentro da pasta clonada):**
   - **Linux / macOS:** `mkdir -p ~/.config/opencode/skills && ln -sfn "$(pwd)" ~/.config/opencode/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review" -Target (Get-Location)`
-- **🔄 Atualização Rápida Global:**
+- **🔄 Atualização Rápida Global (Atualiza Regras e Preserva Memória dos Projetos):**
   - **Linux / macOS / WSL:**
     ```bash
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git /tmp/bcr_temp && \
     cp /tmp/bcr_temp/SKILL.md ~/.config/opencode/skills/brutal-code-review/ && \
     cp -r /tmp/bcr_temp/agent-rules-books ~/.config/opencode/skills/brutal-code-review/ && \
+    cp /tmp/bcr_temp/KNOWLEDGE.md ~/.config/opencode/skills/brutal-code-review/ && \
+    mkdir -p ~/.config/opencode/skills/brutal-code-review/knowledge/global ~/.config/opencode/skills/brutal-code-review/knowledge/projects && \
+    cp -r /tmp/bcr_temp/knowledge/global/* ~/.config/opencode/skills/brutal-code-review/knowledge/global/ && \
+    cp -n /tmp/bcr_temp/knowledge/projects/TEMPLATE.md ~/.config/opencode/skills/brutal-code-review/knowledge/projects/ 2>/dev/null || true && \
     rm -rf /tmp/bcr_temp
     ```
   - **Windows (PowerShell):**
@@ -505,6 +527,11 @@ Instala na pasta de configuração do OpenCode do seu usuário:
     git clone --depth 1 https://github.com/antonicarlos/brutal-code-review.git $env:TEMP\bcr_temp; `
     Copy-Item "$env:TEMP\bcr_temp\SKILL.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\" -Force; `
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\agent-rules-books" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"; `
+    Copy-Item "$env:TEMP\bcr_temp\KNOWLEDGE.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\" -Force; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\knowledge\global"; `
+    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\knowledge\projects"; `
+    Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge\global\*" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\knowledge\global\"; `
+    if (-not (Test-Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\knowledge\projects\TEMPLATE.md")) { Copy-Item "$env:TEMP\bcr_temp\knowledge\projects\TEMPLATE.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\knowledge\projects\" }; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
 
@@ -516,8 +543,8 @@ Instala na pasta de configuração do OpenCode do seu usuário:
 Se você já possui o **`brutal-code-review`** instalado e deseja obter as regras mais recentes, melhorias e novos anti-patterns (como a repressão global a *Hard Parse* e a exigência de *Bind Variables*):
 
 > [!IMPORTANT]
-> **Preservação Blindada do Conhecimento (`knowledge/` e `KNOWLEDGE.md`):**
-> **NUNCA** delete a pasta da skill por completo (`rm -rf`) para atualizar. O diretório `knowledge/projects/` armazena o histórico acumulado e as decisões arquiteturais de cada projeto auditado, enquanto `knowledge/global/` guarda os anti-patterns transversais. Nossos comandos de atualização substituem cirurgicamente apenas as instruções (`SKILL.md`) e a biblioteca de regras (`agent-rules-books/`), garantindo que seus ledgers de projeto fiquem 100% blindados e intactos.
+> **Preservação Blindada dos Projetos (`knowledge/projects/`):**
+> **NUNCA** delete a pasta da skill por completo (`rm -rf`) para atualizar. O diretório `knowledge/projects/` armazena o histórico acumulado e as decisões arquiteturais de cada projeto auditado na sua máquina. Nossos comandos de atualização atualizam cirurgicamente as instruções (`SKILL.md`), a biblioteca de regras (`agent-rules-books/`), os anti-patterns transversais (`knowledge/global/`) e o template de novos projetos, mantendo seus arquivos de projeto em `knowledge/projects/*.md` 100% blindados e intactos.
 
 ### 1. Se você instalou via Symlink (Mais Rápido):
 Basta rodar `git pull` dentro da pasta onde você clonou este repositório:
@@ -527,22 +554,29 @@ git pull origin main
 *Todas as IDEs e assistentes conectados via link simbólico recebem as atualizações instantaneamente.*
 
 ### 2. Se você já tem o repositório clonado localmente:
-Puxe as novidades do Git e copie cirurgicamente os 2 itens para a pasta da sua ferramenta (exemplo para Gemini CLI):
+Puxe as novidades do Git e sincronize cirurgicamente com a pasta da sua ferramenta (exemplo para Gemini CLI):
 - **Linux / macOS:**
   ```bash
   git pull origin main && \
-  cp SKILL.md ~/.gemini/skills/brutal-code-review/ && \
-  cp -r agent-rules-books ~/.gemini/skills/brutal-code-review/
+  cp SKILL.md KNOWLEDGE.md ~/.gemini/skills/brutal-code-review/ && \
+  cp -r agent-rules-books ~/.gemini/skills/brutal-code-review/ && \
+  mkdir -p ~/.gemini/skills/brutal-code-review/knowledge/global ~/.gemini/skills/brutal-code-review/knowledge/projects && \
+  cp -r knowledge/global/* ~/.gemini/skills/brutal-code-review/knowledge/global/ && \
+  cp -n knowledge/projects/TEMPLATE.md ~/.gemini/skills/brutal-code-review/knowledge/projects/ 2>/dev/null || true
   ```
 - **Windows (PowerShell):**
   ```powershell
   git pull origin main; `
-  Copy-Item "SKILL.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\" -Force; `
-  Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"
+  Copy-Item "SKILL.md", "KNOWLEDGE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\" -Force; `
+  Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"; `
+  New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global"; `
+  New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects"; `
+  Copy-Item -Recurse -Force "knowledge\global\*" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global\"; `
+  if (-not (Test-Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\TEMPLATE.md")) { Copy-Item "knowledge\projects\TEMPLATE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\" }
   ```
 
 ### 3. Em 1-Comando (Sem manter o clone local):
-Utilize o comando de **Atualização Rápida** específico para o seu assistente (listado na seção de cada ferramenta acima). Ele baixa a versão mais recente em pasta temporária com `--depth 1`, atualiza `SKILL.md` e `agent-rules-books/` e preserva seu `KNOWLEDGE.md`.
+Utilize o comando de **Atualização Rápida** específico para o seu assistente (listado na seção de cada ferramenta acima). Ele baixa a versão mais recente em pasta temporária com `--depth 1`, atualiza `SKILL.md`, `agent-rules-books/` e as regras globais em `knowledge/global/` preservando os ledgers de projetos locais.
 
 ---
 
