@@ -126,22 +126,7 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    mkdir -p ~/.antigravity/skills/brutal-code-review && \
-    cp SKILL.md ~/.antigravity/skills/brutal-code-review/ && \
-    cp -r agent-rules-books ~/.antigravity/skills/brutal-code-review/ && \
-    cp -r knowledge ~/.antigravity/skills/brutal-code-review/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review"
-    Copy-Item "SKILL.md" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "knowledge" -Destination "$env:USERPROFILE\.antigravity\skills\brutal-code-review\"
-    ```
-- **🔗 Via Symlink (Execute dentro da pasta clonada):**
+- **🔗 Via Symlink (Recomendado se você clonou este repositório):**
   - **Linux / macOS:** `mkdir -p ~/.antigravity/skills && ln -sfn "$(pwd)" ~/.antigravity/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.antigravity\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.antigravity\skills\brutal-code-review" -Target (Get-Location)`
 - **🔄 Atualização Rápida (Atualiza Regras e Preserva Memória dos Projetos):**
@@ -193,22 +178,7 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    mkdir -p ~/.gemini/skills/brutal-code-review && \
-    cp SKILL.md ~/.gemini/skills/brutal-code-review/ && \
-    cp -r agent-rules-books ~/.gemini/skills/brutal-code-review/ && \
-    cp -r knowledge ~/.gemini/skills/brutal-code-review/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review"
-    Copy-Item "SKILL.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "knowledge" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"
-    ```
-- **🔗 Via Symlink (Execute dentro da pasta clonada):**
+- **🔗 Via Symlink (Recomendado se você clonou este repositório):**
   - **Linux / macOS:** `mkdir -p ~/.gemini/skills && ln -sfn "$(pwd)" ~/.gemini/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review" -Target (Get-Location)`
 - **🔄 Atualização Rápida (Atualiza Regras e Preserva Memória dos Projetos):**
@@ -259,22 +229,6 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "knowledge"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    cp SKILL.md /caminho/do/seu/projeto/.cursorrules && \
-    cp -r agent-rules-books /caminho/do/seu/projeto/ && \
-    cp -r knowledge /caminho/do/seu/projeto/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    Copy-Item "SKILL.md" -Destination "C:\caminho\do\projeto\.cursorrules"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "C:\caminho\do\projeto\agent-rules-books"
-    Copy-Item -Recurse -Force "knowledge" -Destination "C:\caminho\do\projeto\knowledge"
-    ```
-- **🔗 Via Symlink (Opcional):**
-  - **Linux / macOS:** `ln -s /caminho/para/brutal-code-review/SKILL.md .cursorrules && ln -s /caminho/para/brutal-code-review/agent-rules-books agent-rules-books`
-  - **Windows (PowerShell):** `New-Item -ItemType SymbolicLink -Path ".cursorrules" -Target "C:\caminho\para\brutal-code-review\SKILL.md"; New-Item -ItemType SymbolicLink -Path "agent-rules-books" -Target "C:\caminho\para\brutal-code-review\agent-rules-books"`
 - **🔄 Atualização Rápida no Projeto:**
   - **Linux / macOS / WSL:**
     ```bash
@@ -314,22 +268,6 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "knowledge"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    cp SKILL.md /caminho/do/seu/projeto/CLAUDE.md && \
-    cp -r agent-rules-books /caminho/do/seu/projeto/ && \
-    cp -r knowledge /caminho/do/seu/projeto/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    Copy-Item "SKILL.md" -Destination "C:\caminho\do\projeto\CLAUDE.md"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "C:\caminho\do\projeto\agent-rules-books"
-    Copy-Item -Recurse -Force "knowledge" -Destination "C:\caminho\do\projeto\knowledge"
-    ```
-- **🔗 Via Symlink (Opcional):**
-  - **Linux / macOS:** `ln -s /caminho/para/brutal-code-review/SKILL.md CLAUDE.md && ln -s /caminho/para/brutal-code-review/agent-rules-books agent-rules-books`
-  - **Windows (PowerShell):** `New-Item -ItemType SymbolicLink -Path "CLAUDE.md" -Target "C:\caminho\para\brutal-code-review\SKILL.md"; New-Item -ItemType SymbolicLink -Path "agent-rules-books" -Target "C:\caminho\para\brutal-code-review\agent-rules-books"`
 - **🔄 Atualização Rápida no Projeto:**
   - **Linux / macOS / WSL:**
     ```bash
@@ -371,24 +309,6 @@ A base bibliográfica (`agent-rules-books/`) é autossuficiente e vem embutida d
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "knowledge"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    mkdir -p /caminho/do/seu/projeto/.github && \
-    cp SKILL.md /caminho/do/seu/projeto/.github/copilot-instructions.md && \
-    cp -r agent-rules-books /caminho/do/seu/projeto/ && \
-    cp -r knowledge /caminho/do/seu/projeto/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    New-Item -ItemType Directory -Force -Path "C:\caminho\do\projeto\.github"
-    Copy-Item "SKILL.md" -Destination "C:\caminho\do\projeto\.github\copilot-instructions.md"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "C:\caminho\do\projeto\agent-rules-books"
-    Copy-Item -Recurse -Force "knowledge" -Destination "C:\caminho\do\projeto\knowledge"
-    ```
-- **🔗 Via Symlink (Opcional):**
-  - **Linux / macOS:** `mkdir -p .github && ln -s /caminho/para/brutal-code-review/SKILL.md .github/copilot-instructions.md && ln -s /caminho/para/brutal-code-review/agent-rules-books agent-rules-books`
-  - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path ".github"; New-Item -ItemType SymbolicLink -Path ".github\copilot-instructions.md" -Target "C:\caminho\para\brutal-code-review\SKILL.md"; New-Item -ItemType SymbolicLink -Path "agent-rules-books" -Target "C:\caminho\para\brutal-code-review\agent-rules-books"`
 - **🔄 Atualização Rápida no Projeto:**
   - **Linux / macOS / WSL:**
     ```bash
@@ -436,24 +356,6 @@ O **OpenCode** suporta Skills nativamente através do diretório `.opencode/skil
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination ".opencode\skills\brutal-code-review\"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    mkdir -p /caminho/do/seu/projeto/.opencode/skills/brutal-code-review && \
-    cp SKILL.md /caminho/do/seu/projeto/.opencode/skills/brutal-code-review/ && \
-    cp -r agent-rules-books /caminho/do/seu/projeto/.opencode/skills/brutal-code-review/ && \
-    cp -r knowledge /caminho/do/seu/projeto/.opencode/skills/brutal-code-review/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    New-Item -ItemType Directory -Force -Path "C:\caminho\do\projeto\.opencode\skills\brutal-code-review"
-    Copy-Item "SKILL.md" -Destination "C:\caminho\do\projeto\.opencode\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "C:\caminho\do\projeto\agent-rules-books"
-    Copy-Item -Recurse -Force "knowledge" -Destination "C:\caminho\do\projeto\knowledge"
-    ```
-- **🔗 Via Symlink (Opcional):**
-  - **Linux / macOS:** `mkdir -p .opencode/skills && ln -sfn /caminho/para/brutal-code-review .opencode/skills/brutal-code-review`
-  - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path ".opencode\skills"; New-Item -ItemType SymbolicLink -Path ".opencode\skills\brutal-code-review" -Target "C:\caminho\para\brutal-code-review"`
 - **🔄 Atualização Rápida no Projeto:**
   - **Linux / macOS / WSL:**
     ```bash
@@ -492,22 +394,7 @@ Instala na pasta de configuração do OpenCode do seu usuário:
     Copy-Item -Recurse -Force "$env:TEMP\bcr_temp\knowledge" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"; `
     Remove-Item -Recurse -Force "$env:TEMP\bcr_temp"
     ```
-- **📁 Se você já clonou este repositório localmente:**
-  - **Linux / macOS:**
-    ```bash
-    mkdir -p ~/.config/opencode/skills/brutal-code-review && \
-    cp SKILL.md ~/.config/opencode/skills/brutal-code-review/ && \
-    cp -r agent-rules-books ~/.config/opencode/skills/brutal-code-review/ && \
-    cp -r knowledge ~/.config/opencode/skills/brutal-code-review/
-    ```
-  - **Windows (PowerShell):**
-    ```powershell
-    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review"
-    Copy-Item "SKILL.md" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"
-    Copy-Item -Recurse -Force "knowledge" -Destination "$env:USERPROFILE\.config\opencode\skills\brutal-code-review\"
-    ```
-- **🔗 Via Symlink (Execute dentro da pasta clonada):**
+- **🔗 Via Symlink (Recomendado se você clonou este repositório):**
   - **Linux / macOS:** `mkdir -p ~/.config/opencode/skills && ln -sfn "$(pwd)" ~/.config/opencode/skills/brutal-code-review`
   - **Windows (PowerShell):** `New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\opencode\skills"; New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\opencode\skills\brutal-code-review" -Target (Get-Location)`
 - **🔄 Atualização Rápida Global (Atualiza Regras e Preserva Memória dos Projetos):**
@@ -553,30 +440,8 @@ git pull origin main
 ```
 *Todas as IDEs e assistentes conectados via link simbólico recebem as atualizações instantaneamente.*
 
-### 2. Se você já tem o repositório clonado localmente:
-Puxe as novidades do Git e sincronize cirurgicamente com a pasta da sua ferramenta (exemplo para Gemini CLI):
-- **Linux / macOS:**
-  ```bash
-  git pull origin main && \
-  cp SKILL.md KNOWLEDGE.md ~/.gemini/skills/brutal-code-review/ && \
-  cp -r agent-rules-books ~/.gemini/skills/brutal-code-review/ && \
-  mkdir -p ~/.gemini/skills/brutal-code-review/knowledge/global ~/.gemini/skills/brutal-code-review/knowledge/projects && \
-  cp -r knowledge/global/* ~/.gemini/skills/brutal-code-review/knowledge/global/ && \
-  cp -n knowledge/projects/TEMPLATE.md ~/.gemini/skills/brutal-code-review/knowledge/projects/ 2>/dev/null || true
-  ```
-- **Windows (PowerShell):**
-  ```powershell
-  git pull origin main; `
-  Copy-Item "SKILL.md", "KNOWLEDGE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\" -Force; `
-  Copy-Item -Recurse -Force "agent-rules-books" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\"; `
-  New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global"; `
-  New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects"; `
-  Copy-Item -Recurse -Force "knowledge\global\*" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\global\"; `
-  if (-not (Test-Path "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\TEMPLATE.md")) { Copy-Item "knowledge\projects\TEMPLATE.md" -Destination "$env:USERPROFILE\.gemini\skills\brutal-code-review\knowledge\projects\" }
-  ```
-
-### 3. Em 1-Comando (Sem manter o clone local):
-Utilize o comando de **Atualização Rápida** específico para o seu assistente (listado na seção de cada ferramenta acima). Ele baixa a versão mais recente em pasta temporária com `--depth 1`, atualiza `SKILL.md`, `agent-rules-books/` e as regras globais em `knowledge/global/` preservando os ledgers de projetos locais.
+### 2. Em 1-Comando (Sem manter o clone local):
+Utilize o comando de **Atualização Rápida** específico para o seu assistente (listado na seção de cada ferramenta acima). Ele baixa a versão mais recente em pasta temporária com `--depth 1`, atualiza `SKILL.md`, `agent-rules-books/` e as regras globais em `knowledge/global/`, garantindo a preservação total dos ledgers de projetos locais.
 
 ---
 
