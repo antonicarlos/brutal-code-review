@@ -49,11 +49,16 @@ run_check "Symlink .cursorrules resolves correctly" check_symlink ".cursorrules"
 run_check "Symlink CLAUDE.md resolves correctly" check_symlink "CLAUDE.md"
 run_check "Symlink .github/copilot-instructions.md resolves correctly" check_symlink ".github/copilot-instructions.md"
 
-# 2. Base files existence
+# 2. Base files and knowledge structure existence
 run_check "SKILL.md exists" test -f "SKILL.md"
 run_check "KNOWLEDGE.md exists" test -f "KNOWLEDGE.md"
 run_check "README.md exists" test -f "README.md"
 run_check ".gitignore exists" test -f ".gitignore"
+run_check "knowledge/global/KNOWLEDGE.md exists" test -f "knowledge/global/KNOWLEDGE.md"
+run_check "knowledge/projects directory exists" test -d "knowledge/projects"
+run_check "knowledge/projects/TEMPLATE.md exists" test -f "knowledge/projects/TEMPLATE.md"
+run_check "SKILL.md contains DDL & Migration Scripts Exemption" grep -q "DDL & Migration Scripts Exemption" "SKILL.md"
+run_check "TEMPLATE.md defines Project Slug convention" grep -q "Project Slug" "knowledge/projects/TEMPLATE.md"
 
 # 3. Check for unwanted NTFS Zone.Identifier artifacts
 check_no_zone_identifiers() {

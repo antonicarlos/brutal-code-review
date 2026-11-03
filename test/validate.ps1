@@ -66,11 +66,20 @@ Run-Check "Link/Pointer .github/copilot-instructions.md resolves correctly" {
     Check-LinkOrTarget ".github/copilot-instructions.md" "SKILL.md"
 }
 
-# 2. Base files existence
+# 2. Base files and knowledge structure existence
 Run-Check "SKILL.md exists" { Test-Path "SKILL.md" }
 Run-Check "KNOWLEDGE.md exists" { Test-Path "KNOWLEDGE.md" }
 Run-Check "README.md exists" { Test-Path "README.md" }
 Run-Check ".gitignore exists" { Test-Path ".gitignore" }
+Run-Check "knowledge/global/KNOWLEDGE.md exists" { Test-Path "knowledge/global/KNOWLEDGE.md" }
+Run-Check "knowledge/projects directory exists" { Test-Path "knowledge/projects" }
+Run-Check "knowledge/projects/TEMPLATE.md exists" { Test-Path "knowledge/projects/TEMPLATE.md" }
+Run-Check "SKILL.md contains DDL & Migration Scripts Exemption" {
+    (Get-Content -Path "SKILL.md" -Raw) -match "DDL & Migration Scripts Exemption"
+}
+Run-Check "TEMPLATE.md defines Project Slug convention" {
+    (Get-Content -Path "knowledge/projects/TEMPLATE.md" -Raw) -match "Project Slug"
+}
 
 # 3. Check for unwanted NTFS Zone.Identifier artifacts
 Run-Check "No NTFS Zone.Identifier artifact files exist" {
