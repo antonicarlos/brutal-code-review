@@ -61,45 +61,59 @@ EXECUTION PROTOCOL (RULES ENGINE):
 
 WRITE PERMISSIONS & UNATTENDED EXECUTION:
 - Autonomous File Operations: The agent is explicitly granted full permission to create, write, and update all files and directories related to the skill without asking for user confirmation:
-  * Directories: `[REPO_ROOT]/.code-review/` and `[REPO_ROOT]/.code-review/review/`.
+  * Local Directories: `[REPO_ROOT]/.code-review/` and `[REPO_ROOT]/.code-review/review/`.
   * Review Reports: `[REPO_ROOT]/.code-review/code-review.md` and `[REPO_ROOT]/.code-review/review/[NOME_OU_PR]_[TIMESTAMP].md`.
-  * Local Memory: `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`.
-  * Global/Skill Memory: `[SKILL_DIR]/KNOWLEDGE.md`.
+  * Local Project Memory Mirror: `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`.
+  * Skill Global Knowledge: `[SKILL_DIR]/knowledge/global/KNOWLEDGE.md` (and legacy `[SKILL_DIR]/KNOWLEDGE.md`).
+  * Skill Project Knowledge Ledgers: `[SKILL_DIR]/knowledge/projects/[PROJECT_NAME].md`.
 - Zero Interruption Rule: NEVER prompt the user with questions like "Posso criar o arquivo?", "Posso atualizar o KNOWLEDGE.md?", "Autoriza a criação de pastas?", or "Deseja que eu continue?". Execute the entire workflow automatically.
 - Working Tree Safety: Keep all created/updated files in the working directory (changes) for user inspection. NEVER commit or push automatically (`git commit` / `git push` are strictly forbidden without explicit user command).
 
 # ==============================================================================
-# THREE-TIER KNOWLEDGE ENGINE (AGNOSTIC / MULTI-AGENT COMPATIBLE)
+# THREE-TIER HIERARCHICAL KNOWLEDGE ENGINE (AGNOSTIC / MULTI-AGENT COMPATIBLE)
 # ==============================================================================
 
 PATHS CONFIGURATION:
-- Global / Skill Knowledge File: `[SKILL_DIR]/KNOWLEDGE.md` (located inside the selected agent's skill directory, e.g. `~/.antigravity/skills/brutal-code-review/KNOWLEDGE.md`, `~/.gemini/skills/brutal-code-review/KNOWLEDGE.md`, or adjacent to `SKILL.md`).
-- Project Directory Resolution: Locate current Git repository root `[REPO_ROOT]`.
-- Primary Local Directory: `[REPO_ROOT]/.code-review/` (Fallback: `[REPO_ROOT]/.brutal-code-review/`)
-  * Local Memory File: `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`
-  * Main Review Report: `[REPO_ROOT]/.code-review/code-review.md`
-  * Timestamped Reviews Directory: `[REPO_ROOT]/.code-review/review/`
+- Skill Global Knowledge: `[SKILL_DIR]/knowledge/global/KNOWLEDGE.md` (Fallback: `[SKILL_DIR]/KNOWLEDGE.md`, located inside the selected agent's skill directory, e.g. `~/.antigravity/skills/brutal-code-review/knowledge/global/KNOWLEDGE.md`, `~/.gemini/skills/brutal-code-review/knowledge/global/KNOWLEDGE.md`).
+- Project Resolution & Anti-Collision Namespacing:
+  * Remote Origin URL: Resolved via `git config --get remote.origin.url 2>/dev/null`.
+  * Project Slug `[PROJECT_NAME]`:
+    - If remote origin exists, parse and sanitize `[ORG]__[REPO]` from SSH (`git@host:org/repo.git`) or HTTPS (`https://host/org/repo.git`) by stripping protocol, domain, and `.git` extension (e.g., `tcloud-watch__alert-engine`).
+    - If no remote is configured (local repository), use `local__[BASENAME]`.
+  * Git Root `[REPO_ROOT]`: Root directory of current repository (`git rev-parse --show-toplevel 2>/dev/null || pwd`).
+- Skill Project Knowledge: `[SKILL_DIR]/knowledge/projects/[PROJECT_NAME].md` (Centralized project ledger persistent across checkouts/branches).
+  * Reading Fallback (Backward Compatibility): If `[PROJECT_NAME].md` does not exist, check for legacy `[BASENAME].md` (e.g. `alert-engine.md`). If present, load its contents and migrate seamlessly to `[PROJECT_NAME].md`.
+- Local Project Memory Mirror: `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md` (Fallback: `[REPO_ROOT]/.brutal-code-review/REVIEW_KNOWLEDGE.md`).
+- Review Reports:
+  * Main Accumulated Report: `[REPO_ROOT]/.code-review/code-review.md`.
+  * Timestamped Review History: `[REPO_ROOT]/.code-review/review/[PROJECT_NAME_OR_PR]_[TIMESTAMP].md`.
 
 PRE-REVIEW PROTOCOL (READ, FILTER & COMPACT):
-1. **Load Global / Skill Knowledge:** Read `[SKILL_DIR]/KNOWLEDGE.md` (inside the active agent's skill directory). Create it if missing.
-2. **Load Local Memory & Prior Context:** Read `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md` (or `.brutal-code-review/REVIEW_KNOWLEDGE.md`). Create directory and file if missing with template:
-   - `## 1. Project Domain & Business Context`
-   - `## 2. Accepted Exceptions & Known Debts (DO NOT REPORT)`
-   - `## 3. Discovered Project-Specific Edge Cases`
+1. **Load Global / Skill Knowledge:** Read `[SKILL_DIR]/knowledge/global/KNOWLEDGE.md` (fallback to `[SKILL_DIR]/KNOWLEDGE.md`). Create directory and file if missing.
+2. **Load Project Memory & Context:**
+   - Resolve project slug `[PROJECT_NAME]`. Read `[SKILL_DIR]/knowledge/projects/[PROJECT_NAME].md` (or fallback `[BASENAME].md`). If missing, create it automatically with template:
+     * `## 1. Project Domain & Business Context`
+     * `## 2. Accepted Exceptions & Known Debts (DO NOT REPORT)`
+     * `## 3. Discovered Project-Specific Edge Cases`
+   - If `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md` exists in the active repository, read it and merge additional context/exemptions.
 3. **Inspect Prior Review Reports:** Read existing `[REPO_ROOT]/.code-review/code-review.md` or latest file in `[REPO_ROOT]/.code-review/review/` to check previously raised issues, open debts, or progress.
-4. **COMPACTION & LIMIT ENFORCEMENT:**
-   - Keep Local Memory (`REVIEW_KNOWLEDGE.md`) strictly **under 100 lines**.
-   - Keep Global Knowledge (`KNOWLEDGE.md`) strictly **under 250 lines**.
-   - Merge similar entries and prune obsolete entries if limits are exceeded.
-5. **SUPPRESSION RULE:** Cross-reference findings against Section 2 ("Accepted Exceptions") of local memory AND global rules. NEVER report issues already registered as accepted exceptions.
+4. **ACTIVE COMPACTION ALGORITHM & LIMIT ENFORCEMENT:**
+   - Hard Limits: Keep Project Memory (`[PROJECT_NAME].md`) strictly **under 150 lines**; keep Global Knowledge (`knowledge/global/KNOWLEDGE.md`) strictly **under 250 lines**.
+   - Trigger Threshold: When a file reaches 90% capacity (135 lines for project, 225 lines for global), execute semantic auto-compaction before appending:
+     * Stage 1 (Deduplication & Cross-Project Promotion): Identify repeated framework quirks or language edge cases in project ledgers and promote them to `knowledge/global/KNOWLEDGE.md` as 1-bullet rules, deleting local redundancy.
+     * Stage 2 (Resolved Debt Eviction): Cross-reference Section 2 ("Accepted Exceptions") against the codebase. If the exempted file, class, or legacy method was completely removed in `main`, evict the debt entry.
+     * Stage 3 (Severity Prioritization): Preserve critical system safety rules (`BLOCKER`, OOM hazards, memory/connection leaks, race conditions) and aggressively condense or remove purely cosmetic style notes.
+5. **SUPPRESSION RULE:** Cross-reference findings against Section 2 ("Accepted Exceptions") of project memory AND global rules. NEVER report issues already registered as accepted exceptions.
 
 POST-REVIEW PROTOCOL (LEARN, ISOLATE & CONSOLIDATE):
 1. **Autonomous Execution:** Perform all steps below directly without asking for confirmation.
 2. **Create Primary Review File:** Write/update the main review report directly to `[REPO_ROOT]/.code-review/code-review.md`.
 3. **Save Historical Review Report:** Create a timestamped copy inside `[REPO_ROOT]/.code-review/review/` using format `[PROJECT_NAME_OR_PR]_[YYYYMMDD_HHMMSS].md` (e.g. `PR-42_20260929_182000.md` or `my-service_20260929_182000.md`).
-4. **Update Local Project Memory:** Save new project-specific findings or accepted debts into `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`.
+4. **Update Project Knowledge:**
+   - Save new project-specific findings, business context, or accepted debts into `[SKILL_DIR]/knowledge/projects/[PROJECT_NAME].md`.
+   - Also mirror updates into `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md` when the local repository allows.
 5. **Update Global / Skill Knowledge File:**
-   - If a finding is a generic best-practice, framework edge-case, or cross-project anti-pattern, append/consolidate it directly into `[SKILL_DIR]/KNOWLEDGE.md` (inside the selected agent's skill directory).
+   - If a finding is a generic best-practice, framework edge-case, or cross-project anti-pattern, append/consolidate it directly into `[SKILL_DIR]/knowledge/global/KNOWLEDGE.md` (and keep `[SKILL_DIR]/KNOWLEDGE.md` in sync if present).
    - Maintain concise 1-bullet-point entries per pattern to respect the 250-line cap.
 6. **Safety Constraint:** NEVER run `git commit`, `git push`, or alter git history automatically.
 
@@ -108,14 +122,17 @@ POST-REVIEW PROTOCOL (LEARN, ISOLATE & CONSOLIDATE):
 # Stack: C#/.NET, Python, Go, Java/JVM, Node.js/TS | SQL, Redis, Kafka/Queues | Frontend | Docker, K8s, AWS
 # ==============================================================================
 
-DATABASE & RESOURCE MANAGEMENT (SQL Server, PostgreSQL, Oracle, Redis):
+DATABASE & RESOURCE MANAGEMENT (SQL Server, PostgreSQL, Oracle, MySQL, Redis):
+- Mandatory Bind Variables & Hard Parse Suppression: Immediate BLOCKER for SQL queries constructing variable values via string interpolation (`$""`, `f""`), string concatenation (`+`), or formatted strings (`sprintf`, `String.format`). Enforce typed bind variables / parameterized queries across ALL relational engines (SQL Server, PostgreSQL, Oracle, MySQL). Dynamic literals in `WHERE`, `JOIN`, `SET`, or `VALUES` trigger continuous Hard Parses, causing severe CPU spikes, Plan Cache / Library Cache bloat, latch/mutex contention, and severe throughput degradation.
 - Connection Leakage: Any 'DbConnection', 'IDbConnection', 'DataReader', 'Cursor', or 'Stream' NOT wrapped in 'using'/'await using' (.NET), 'with' contexts (Python), or explicitly closed in 'defer' (Go) is an immediate BLOCKER.
 - SQL Server Connection Strings: Block unsupported keywords (e.g., 'host=' instead of 'Server=' or 'Data Source=' in System.Data.SqlClient). Ensure TCP ports use commas ('localhost,1433' instead of 'localhost:1433').
 - Database Lockouts: Flag scripts or procedures running 'RESTORE DATABASE' without forcing 'SINGLE_USER WITH ROLLBACK IMMEDIATE' to prevent connection lockups.
 - Polyglot SQL Practices:
-  * SQL Server: Reject implicit data type conversions in WHERE clauses (causes Index Scan instead of Index Seek).
-  * PostgreSQL: Flag unindexed 'JSONB' queries in hot paths and missing connection pooling (e.g., PgBouncer considerations).
+  * SQL Server: Reject implicit data type conversions in WHERE clauses (causes Index Scan instead of Index Seek). Flag unparameterized ad-hoc queries and dynamic strings in 'FromSqlRaw'.
+  * PostgreSQL: Enforce parameterized placeholders ('$1', '$2'), flag unindexed 'JSONB' queries in hot paths and missing connection pooling (e.g., PgBouncer considerations).
   * Oracle: Flag missing bind variables (causes hard parses and library cache contention) and improperly managed cursor allocations.
+  * Structural Identifiers Guard: Dynamic table/column names that cannot accept bind variables must be validated against a strict, static allowlist — never direct concatenation of unvalidated input.
+  * DDL & Migration Scripts Exemption: Schema definition statements ('CREATE TABLE', 'ALTER TABLE', index/constraint management, partition maintenance, EF Core/Flyway/Liquibase migration classes) do not support bind variables by relational database design and are formal EXCEPTIONS from bind variable rules, provided they do not dynamically interpolate untrusted user runtime input. Dynamic DML row-manipulation queries ('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'MERGE') must NEVER interpolate variable values.
 - Caching & Redis Pragmatism:
   * Missing TTLs: Flag any cache insertion without explicit TTL/expiration policy (prevents silent OOMs).
   * Unindexed Scans: Immediate BLOCKER for 'KEYS *' or unindexed scans in production — enforce 'SCAN' or set-based structures.
@@ -182,11 +199,11 @@ Then provide analysis (skip if 🟢):
 [STYLE NOTES] (Skip most of these - only mention if it genuinely hurts maintainability)
 [TESTING GAPS] (If behavior changed, this is not optional)
 
-[LOCAL PROJECT KNOWLEDGE UPDATE]
-- List entries added/compacted in `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`.
+[PROJECT KNOWLEDGE UPDATE]
+- List entries added/compacted in `[SKILL_DIR]/knowledge/projects/[PROJECT_NAME].md` (and mirrored in `[REPO_ROOT]/.code-review/REVIEW_KNOWLEDGE.md`).
 
 [GLOBAL KNOWLEDGE UPDATE]
-- List general engineering learnings added/compacted in `[SKILL_DIR]/KNOWLEDGE.md` (inside the selected agent's skill directory).
+- List general engineering learnings added/compacted in `[SKILL_DIR]/knowledge/global/KNOWLEDGE.md` (inside the selected agent's skill directory).
 
 [RISK ASSESSMENT]
 [Overall PR] ⚠️ Risk Assessment: 🟢 LOW / 🟡 MEDIUM / 🔴 HIGH
