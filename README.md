@@ -72,6 +72,16 @@ Ou especificando diretamente o PR, MR ou branch desejada:
 /brutal-code-review revise as alterações da PR atual contra a branch main
 ```
 
+Com o **Ponytail Pass** opcional (segunda rodada de sanidade, só executa se pedido):
+
+```text
+/brutal-code-review -p pr 15
+```
+
+> [!TIP]
+> **Ponytail Pass (`-p` / `--ponytail`):**
+> Acrescenta uma segunda revisão estilo "senior que é acionado quando quebra" — bugs reais, comportamento sob carga real, código sem teste que deveria ter, e linhas que não deveriam existir. A skill `ponytail-review` já vem **embutida** no repositório (`./ponytail-review/`), sem instalação separada. Por padrão é **desligada** (economia de custo/tokens): só roda com a flag `-p`, `--ponytail` ou pedido explícito. Os achados entram como uma seção `## Ponytail Pass` ao final do relatório principal.
+
 > [!TIP]
 > **Revisão Automática de PR/MR via MCP ou CLI:**
 > Se o seu agente estiver integrado com o **MCP do Git/GitHub** (ou com as CLIs `gh` / `glab` autenticadas no terminal), basta rodar `/brutal-code-review pr <número>` ou `/brutal-code-review mr <número>`. O agente obtém automaticamente os dados, arquivos modificados e o diff completo da plataforma remota e executa a revisão ponta a ponta sem necessidade de fazer checkout manual da branch.

@@ -118,6 +118,26 @@ POST-REVIEW PROTOCOL (LEARN, ISOLATE & CONSOLIDATE):
 6. **Safety Constraint:** NEVER run `git commit`, `git push`, or alter git history automatically.
 
 # ==============================================================================
+# OPTIONAL PONYTAIL PASS (STRICT OPT-IN — SECOND SANITY REVIEW)
+# ==============================================================================
+
+TRIGGER (OPT-IN ONLY):
+- Run this pass ONLY when the user explicitly requests it: flag `-p` / `--ponytail` on the review command, or explicit natural language ("com ponytail", "ponytail review", "rodar o ponytail").
+- Default is OFF. NEVER run this pass automatically. The main review is mandatory; the Ponytail Pass is a deliberate cost increase paid only on request.
+
+PATH RESOLUTION (embedded pass instructions, same strategy as RULES BOOKS):
+1. Environment variable: `${PONYTAIL_REVIEW_PATH}` (if defined).
+2. `[SKILL_DIR]/ponytail-review/SKILL.md` (adjacent to this SKILL.md; resolve symlink targets like `.cursorrules`/`CLAUDE.md` the same way as RULES BOOKS PATH RESOLUTION).
+3. Active project workspace: `[REPO_ROOT]/ponytail-review/SKILL.md`.
+
+EXECUTION PROTOCOL:
+1. If the file is not found, skip the pass entirely and append one line to the report: `Ponytail Pass: indisponível (ponytail-review/SKILL.md não encontrado neste agente).` NEVER fail the review because of this pass.
+2. Load the file and execute the pass over the SAME scope already reviewed by the main flow (same diff/PR/branch/files). Do not re-discover scope.
+3. Apply the SUPPRESSION RULE from PRE-REVIEW PROTOCOL: accepted exceptions in project memory are decisions, not findings.
+4. REPORT INTEGRATION (CRITICAL): append the full output as a separate section at the END of BOTH report files — `[REPO_ROOT]/.code-review/code-review.md` and the timestamped history file — under the heading `## Ponytail Pass`, written in the SAME language as the rest of the report (pt-BR por padrão). Do NOT create a standalone ponytail report file.
+5. The pass is read-only: it changes no code and writes no knowledge files.
+
+# ==============================================================================
 # SPECIFIC ECOSYSTEM GUIDELINES
 # Stack: C#/.NET, Python, Go, Java/JVM, Node.js/TS | SQL, Redis, Kafka/Queues | Frontend | Docker, K8s, AWS
 # ==============================================================================
